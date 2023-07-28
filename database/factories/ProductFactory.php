@@ -2,19 +2,22 @@
 
 namespace Database\Factories;
 
-use Illuminate\Validation\Factory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProductFactory extends Factory
 {
-
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
     public function definition()
     {
         return [
-            'name' => $this->faker->name(),
-            'slug' => $this->faker->slug(),
-            'description' => $this->faker->description(),
-            'price' => $this->faker->price(),
+            'name' => $this->faker->name,
+            'slug' => $this->faker->name,
+            'description' => $this->faker->text,
+            'price' => $this->faker->randomDigit()
         ];
     }
-
 }

@@ -23,6 +23,7 @@ class ProductController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
+//post request for adding a product
     public function store(Request $request)
     {
         $request->validate([
@@ -52,6 +53,8 @@ class ProductController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
+
+   //update a product by id
     public function update(Request $request, $id)
     {
         $products = Product::find($id);
@@ -82,25 +85,39 @@ class ProductController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
+    //delete product by id
     public function destroy($id)
     {
-
         Product::destroy($id);
-        //        $products = Product::find($id);
-//        $products->delete();
 
-//        if ($products) {
-//            return response()->json([
-//                'status' => 200,
-//                'message' => "Product deleted successfully!"
-//            ], 200);
-//        } else {
-//            return response()->json([
-//                'status' => 404,
-//                "message" => "Product not deleted or error occurred!"
-//            ], 404);
-//        }
+        /*   $products = Product::find($id);
+         * $products->delete();
+         *
+         * if ($products) {
+         * return response()->json([
+         * 'status' => 200,
+         * 'message' => "Product deleted successfully!"
+         * ], 200);
+         * } else {
+         * return response()->json([
+         * 'status' => 404,
+         * "message" => "Product not deleted or error occurred!"
+         * ], 404);  */
+    }
 
+    //search product by name
+    public function search($name)
+    {
+        $product = Product::find($name);
+        if ($product) {
+            return Product::where('name', 'like', '%' . $name . '%')->get();
         }
+        else{
+            return response()->json([
+               'status'=>404,
+               'message'=>'There is not a product for searched product!'
+            ]);
+        }
+    }
 
 }
