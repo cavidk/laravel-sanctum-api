@@ -8,7 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 
-class   AuthController extends Controller
+class AuthController extends Controller
 {
     public function register(Request $request)
     {
@@ -31,10 +31,11 @@ class   AuthController extends Controller
             'user' => $user,
             'token' => $token,
         ];
-        return response($response,201);
+        return response($response, 201);
     }
 
-    public function login(Request $request){
+    public function login(Request $request)
+    {
         $fields = $request->validate([
             'email' => 'required|string',
             'password' => 'required|string'
@@ -43,10 +44,10 @@ class   AuthController extends Controller
         //check email
         $user = User::where('email', $fields['email'])->first();
 
-        if(!$user || !Hash::check($fields['password'], $user->password)){
+        if (!$user || !Hash::check($fields['password'], $user->password)) {
             return response([
-               'message'=>'Invalid User credentials'
-            ],401);
+                'message' => 'Invalid User credentials'
+            ], 401);
         }
 
         $token = $user->createToken('myAppToken')->plainTextToken;
@@ -55,15 +56,16 @@ class   AuthController extends Controller
             'user' => $user,
             'token' => $token,
         ];
-        return response($response,201);
+        return response($response, 201);
     }
 
 
-      public function logout(Request $request){
+    public function logout(Request $request)
+    {
         auth()->user()->tokens()->delete();
 
         return [
             'message' => 'Logged out'
         ];
-      }
+    }
 }
